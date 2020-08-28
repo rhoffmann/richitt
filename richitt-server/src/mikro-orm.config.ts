@@ -9,9 +9,9 @@ export default {
     pattern: /^[\w-]+\d+\.[tj]s$/,
   },
   entities: [Post],
-  dbName: "richditt",
-  user: "richditt",
-  password: "richditt",
+  dbName: "richitt",
+  user: "richitt",
+  password: "richitt",
   debug: !__prod__,
   type: "postgresql",
 } as Parameters<typeof MikroORM.init>[0];
