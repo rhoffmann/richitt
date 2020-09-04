@@ -94,6 +94,17 @@ export type UsernamePasswordInput = {
   email?: Maybe<Scalars['String']>;
 };
 
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'username'>
+  )> }
+);
+
 export type RegisterUserMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
@@ -116,6 +127,19 @@ export type RegisterUserMutation = (
 );
 
 
+export const MeDocument = gql`
+    query Me {
+  me {
+    id
+    email
+    username
+  }
+}
+    `;
+
+export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
 export const RegisterUserDocument = gql`
     mutation RegisterUser($username: String!, $password: String!, $email: String) {
   register(options: {username: $username, password: $password, email: $email}) {

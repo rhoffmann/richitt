@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useMutation } from 'urql';
+import { useRouter } from 'next/router';
 
 import { Box, Button } from '@chakra-ui/core';
 import { Layout } from '../components/Layout';
@@ -16,6 +17,7 @@ interface RegisterProps {}
 
 const Register: React.FC<RegisterProps> = ({}) => {
   const [registerResult, register] = useRegisterUserMutation();
+  const router = useRouter();
 
   // TODO: refactor the types
   async function handleSubmit(
@@ -30,6 +32,9 @@ const Register: React.FC<RegisterProps> = ({}) => {
 
     if (response.data?.register.errors) {
       setErrors(toFormikErrors(response.data.register.errors));
+    } else if (response.data?.register.user) {
+      // it worked, redirect
+      router.push('/');
     }
 
     return response;

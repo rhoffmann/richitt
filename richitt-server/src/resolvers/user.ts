@@ -96,6 +96,7 @@ export class UserResolver {
       await em.persistAndFlush(user);
     } catch (err) {
       // duplicate user error
+      console.log(err);
       if (err.code === '23505') {
         errors.push({
           field: 'username',
