@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 @ObjectType()
 @Entity()
-export class Post {
+export class User {
   @Field(() => String)
   @PrimaryKey({ type: 'text' })
   id = v4();
@@ -18,6 +18,13 @@ export class Post {
   updatedAt = new Date();
 
   @Field()
+  @Property({ type: 'text', unique: true })
+  username!: string;
+
+  @Field(() => String, { nullable: true })
   @Property({ type: 'text' })
-  title!: string;
+  email: string;
+
+  @Property({ type: 'text' })
+  password!: string;
 }
