@@ -64,7 +64,7 @@ const main = async () => {
     }),
     context: ({ req, res }): MyContext =>
       ({
-        em: orm.em,
+        em: orm.em.fork(),
         req,
         res,
       } as MyContext),
