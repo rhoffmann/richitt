@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { MikroORM } from '@mikro-orm/core';
-import mikroORMConfig from './mikro-orm.config';
+import mikroORMConfig from 'mikro-orm.config';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import express from 'express';
 
-import { PostResolver } from './resolvers/post';
-import { UserResolver } from './resolvers/user';
+import { PostResolver } from 'resolvers/post';
+import { UserResolver } from 'resolvers/user';
 
 import redis from 'redis';
 import session from 'express-session';

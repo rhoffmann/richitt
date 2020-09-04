@@ -1,5 +1,5 @@
-import { Post } from './entities/Post';
-import { User } from './entities/User';
+import { Post } from 'entities/Post';
+import { User } from 'entities/User';
 import { __prod__, DB_NAME, DB_USER, DB_PASSWORD } from './constants';
 import { MikroORM } from '@mikro-orm/core';
 import path from 'path';
