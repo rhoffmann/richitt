@@ -60,7 +60,7 @@ export class UserResolver {
   @Mutation(() => UserResponse)
   async register(
     @Arg('options') options: UsernamePasswordInput,
-    @Ctx() { em }: MyContext
+    @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     const hashedPassword = await argon2.hash(options.password);
 
@@ -109,6 +109,9 @@ export class UserResolver {
       }
       return { errors };
     }
+
+    // logging in after registration
+    req.session.userId = user.id;
 
     return { user };
   }
