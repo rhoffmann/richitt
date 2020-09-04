@@ -7,15 +7,17 @@ import express from 'express';
 
 import { PostResolver } from 'resolvers/post';
 import { UserResolver } from 'resolvers/user';
-
+import cors from 'cors';
 import redis from 'redis';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
-import { REDIS_SECRET, SESSION_COOKIE_NAME, __prod__ } from './constants';
+import {
+  CORS_ORIGIN_WHITELIST,
+  REDIS_SECRET,
+  SESSION_COOKIE_NAME,
+  __prod__,
+} from './constants';
 import { MyContext } from 'types';
-
-const RedisStore = connectRedis(session);
-const redisClient = redis.createClient();
 
 const port = process.env.PORT || 4000;
 
@@ -24,6 +26,16 @@ const main = async () => {
   await orm.getMigrator().up();
 
   const app = express();
+
+  const RedisStore = connectRedis(session);
+  const redisClient = redis.createClient();
+
+  app.use(
+    cors({
+      origin: CORS_ORIGIN_WHITELIST,
+      credentials: true,
+    })
+  );
 
   app.use(
     session({
@@ -58,7 +70,10 @@ const main = async () => {
       } as MyContext),
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
 
   app.listen(port, () => {
     console.log(`server started on localhost:${port}`);

@@ -3,9 +3,9 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
-} from "@chakra-ui/core";
-import { Field, useField } from "formik";
-import React, { InputHTMLAttributes } from "react";
+} from '@chakra-ui/core';
+import { Field, useField } from 'formik';
+import React, { InputHTMLAttributes } from 'react';
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
