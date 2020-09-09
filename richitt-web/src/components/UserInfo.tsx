@@ -8,12 +8,7 @@ interface UserInfoProps {
 }
 
 const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
-  // const [logout, queryLogout] = useLogoutMutation();
-  return (
-    <div>
-      Hello, {user.username} {user.email && `with email ${user.email}`}
-    </div>
-  );
+  return <div>Hello, {user.username}</div>;
 };
 
 export default UserInfo;

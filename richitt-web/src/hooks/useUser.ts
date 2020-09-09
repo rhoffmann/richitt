@@ -7,11 +7,9 @@ export type DisplayUser = Pick<User, 'email' | 'id' | 'username'>;
 
 function useUser() {
   const router = useRouter();
-  const [me] = useMeQuery();
+  const [{ data, fetching, error }, queryMe] = useMeQuery();
   const [user, setUser] = useState<null | DisplayUser>(null);
   const [, executeLogout] = useMutation(LogoutDocument);
-
-  const { data, fetching, error } = me;
 
   useEffect(() => {
     if (data?.me) {

@@ -14,7 +14,7 @@ import {
 import argon2 from 'argon2';
 
 @InputType()
-class UsernamePasswordInput {
+class UserLoginInput {
   @Field()
   username: string;
 
@@ -22,7 +22,7 @@ class UsernamePasswordInput {
   password: string;
 }
 @InputType()
-class UserRegisterInput extends UsernamePasswordInput {
+class UserRegisterInput extends UserLoginInput {
   @Field(() => String, { nullable: true })
   email?: string;
 }
@@ -119,9 +119,15 @@ export class UserResolver {
     return { user };
   }
 
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req }: MyContext) {
+    req.session.userId = null;
+    return true;
+  }
+
   @Mutation(() => UserResponse)
   async login(
-    @Arg('options') options: UsernamePasswordInput,
+    @Arg('options') options: UserLoginInput,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     const user = await em.findOne(User, {

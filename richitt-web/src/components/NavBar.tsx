@@ -16,19 +16,21 @@ export const NavBar: React.FC<NavBarProps> = () => {
   }
 
   return (
-    <Flex p={4} bg="tomato">
+    <Flex p={4} bg="tomato" alignItems="center">
+      <Box>Welcome to Richitt</Box>
       {user ? (
         <>
-          <Box>
-            <UserInfo user={user} />
-          </Box>
           <Box ml="auto">
-            <Button onClick={handleLogout}>Logout</Button>
+            <Flex alignItems="center">
+              <Box mr={6}>
+                <UserInfo user={user} />
+              </Box>
+              <Button onClick={handleLogout}>Logout</Button>
+            </Flex>
           </Box>
         </>
       ) : (
         <>
-          <Box>Welcome to Richitt</Box>
           <Box ml="auto">
             <Link href="/register">
               <Button mr={3}>Register</Button>
