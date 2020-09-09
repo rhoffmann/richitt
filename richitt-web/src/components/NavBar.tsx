@@ -16,7 +16,7 @@ export const NavBar: React.FC<NavBarProps> = () => {
   }
 
   return (
-    <Flex p={4} bg="tomato" alignItems="center">
+    <Flex p={4} bg="orange.200" alignItems="center">
       <Box>Welcome to Richitt</Box>
       {user ? (
         <>
