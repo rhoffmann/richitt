@@ -14,13 +14,15 @@ import {
 import argon2 from 'argon2';
 
 @InputType()
-class UsernamePasswordInput {
+class UserLoginInput {
   @Field()
   username: string;
 
   @Field()
   password: string;
-
+}
+@InputType()
+class UserRegisterInput extends UserLoginInput {
   @Field(() => String, { nullable: true })
   email?: string;
 }
@@ -59,7 +61,7 @@ export class UserResolver {
 
   @Mutation(() => UserResponse)
   async register(
-    @Arg('options') options: UsernamePasswordInput,
+    @Arg('options') options: UserRegisterInput,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     const hashedPassword = await argon2.hash(options.password);
@@ -96,6 +98,7 @@ export class UserResolver {
       await em.persistAndFlush(user);
     } catch (err) {
       // duplicate user error
+      console.log(err);
       if (err.code === '23505') {
         errors.push({
           field: 'username',
@@ -116,9 +119,15 @@ export class UserResolver {
     return { user };
   }
 
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req }: MyContext) {
+    req.session.userId = null;
+    return true;
+  }
+
   @Mutation(() => UserResponse)
   async login(
-    @Arg('options') options: UsernamePasswordInput,
+    @Arg('options') options: UserLoginInput,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     const user = await em.findOne(User, {

@@ -8,3 +8,5 @@ export const DB_USER = process.env.ORM_DB_USER;
 
 export const REDIS_SECRET = process.env.REDIS_SECRET || 'FALLBACK';
 export const SESSION_COOKIE_NAME = process.env.SESSION_COOKIE_NAME || 'fid';
+
+export const CORS_ORIGIN_WHITELIST = process.env.CORS_ORIGIN_WHITELIST || '*';

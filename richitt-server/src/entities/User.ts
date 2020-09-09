@@ -22,7 +22,7 @@ export class User {
   username!: string;
 
   @Field(() => String, { nullable: true })
-  @Property({ type: 'text' })
+  @Property({ type: 'text', nullable: true })
   email: string;
 
   @Property({ type: 'text' })
