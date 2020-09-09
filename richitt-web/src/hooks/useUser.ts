@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useMutation } from 'urql';
 import { LogoutDocument, useMeQuery, User } from '../generated/graphql';
 
 export type DisplayUser = Pick<User, 'email' | 'id' | 'username'>;
 
 function useUser() {
-  // const [logout, queryLogout]
   const router = useRouter();
   const [me] = useMeQuery();
   const [user, setUser] = useState<null | DisplayUser>(null);
@@ -14,7 +13,7 @@ function useUser() {
 
   const { data, fetching, error } = me;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data?.me) {
       setUser(data.me);
     }
