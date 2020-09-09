@@ -12,6 +12,7 @@ import {
 } from 'type-graphql';
 
 import argon2 from 'argon2';
+import { SESSION_COOKIE_NAME } from '../constants';
 
 @InputType()
 class UserLoginInput {
@@ -120,9 +121,18 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  logout(@Ctx() { req }: MyContext) {
-    req.session.userId = null;
-    return true;
+  logout(@Ctx() { req, res }: MyContext): Promise<Boolean> {
+    return new Promise((resolve) => {
+      req.session.destroy((err) => {
+        res.clearCookie(SESSION_COOKIE_NAME);
+        if (err) {
+          console.log(err);
+          resolve(false);
+          return;
+        }
+        resolve(true);
+      });
+    });
   }
 
   @Mutation(() => UserResponse)

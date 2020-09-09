@@ -6,10 +6,11 @@ import useUser from '../hooks/useUser';
 interface IndexProps {}
 
 const Index: React.FC<IndexProps> = ({}) => {
-  const { user, fetching, error } = useUser();
+  const { user, loading, error } = useUser();
 
   return (
     <Layout>
+      {loading && <div>loading...</div>}
       {user ? (
         <>
           <h2>dashboard</h2>

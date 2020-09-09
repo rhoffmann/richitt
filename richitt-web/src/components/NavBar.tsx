@@ -11,7 +11,7 @@ interface NavBarProps {}
 export const NavBar: React.FC<NavBarProps> = () => {
   const { user, logout } = useUser();
 
-  async function handleLogout() {
+  function handleLogout() {
     logout();
   }
 

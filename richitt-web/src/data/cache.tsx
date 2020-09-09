@@ -47,12 +47,7 @@ const cache = cacheExchange({
             query: MeDocument,
           },
           _result,
-          (result, query) => {
-            console.log('logout', result, query);
-            return {
-              me: result.logout ? null : query,
-            };
-          }
+          () => ({ me: null })
         );
       },
       register: (_result, args, cache, info) => {
