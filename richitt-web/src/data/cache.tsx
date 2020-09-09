@@ -48,8 +48,9 @@ const cache = cacheExchange({
           },
           _result,
           (result, query) => {
+            console.log('logout', result, query);
             return {
-              me: null,
+              me: result.logout ? null : query,
             };
           }
         );
