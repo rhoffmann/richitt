@@ -5,34 +5,24 @@ import { useRouter } from 'next/router';
 import { Box, Button } from '@chakra-ui/core';
 import { Layout } from '../components/Layout';
 import { InputField } from '../components/InputField';
-import {
-  useRegisterUserMutation,
-  UserRegisterInput,
-} from '../generated/graphql';
+import { useLoginMutation, UserLoginInput } from '../generated/graphql';
 import { toFormikErrors } from '../lib/helpers';
 
-interface RegisterProps {}
-
-const Register: React.FC<RegisterProps> = ({}) => {
-  const [_, register] = useRegisterUserMutation();
+const Login: React.FC<{}> = ({}) => {
+  const [_, login] = useLoginMutation();
   const router = useRouter();
 
-  // TODO: refactor the types
   async function handleSubmit(
-    values: UserRegisterInput,
-    { setErrors }: FormikHelpers<UserRegisterInput & { email: string }>
+    values: UserLoginInput,
+    { setErrors }: FormikHelpers<UserLoginInput>
   ) {
-    const response = await register({
-      options: {
-        username: values.username,
-        password: values.password,
-        email: values.email || null,
-      },
+    const response = await login({
+      options: values,
     });
 
-    if (response.data?.register.errors) {
-      setErrors(toFormikErrors(response.data.register.errors));
-    } else if (response.data?.register.user) {
+    if (response.data?.login.errors) {
+      setErrors(toFormikErrors(response.data.login.errors));
+    } else if (response.data?.login.user) {
       // it worked, redirect
       router.push('/');
     }
@@ -43,7 +33,7 @@ const Register: React.FC<RegisterProps> = ({}) => {
   return (
     <Layout variant="small">
       <Formik
-        initialValues={{ username: '', password: '', email: '' }}
+        initialValues={{ username: '', password: '' }}
         onSubmit={handleSubmit}
       >
         {({ values, handleChange, isSubmitting }) => (
@@ -63,16 +53,8 @@ const Register: React.FC<RegisterProps> = ({}) => {
                 type="password"
               />
             </Box>
-            <Box mb={6}>
-              <InputField
-                name="email"
-                placeholder="email"
-                label="email"
-                type="email"
-              />
-            </Box>
             <Button variantColor="teal" isLoading={isSubmitting} type="submit">
-              Register
+              Login
             </Button>
           </Form>
         )}
@@ -81,4 +63,4 @@ const Register: React.FC<RegisterProps> = ({}) => {
   );
 };
 
-export default Register;
+export default Login;

@@ -20,7 +20,9 @@ class UsernamePasswordInput {
 
   @Field()
   password: string;
-
+}
+@InputType()
+class UserRegisterInput extends UsernamePasswordInput {
   @Field(() => String, { nullable: true })
   email?: string;
 }
@@ -59,7 +61,7 @@ export class UserResolver {
 
   @Mutation(() => UserResponse)
   async register(
-    @Arg('options') options: UsernamePasswordInput,
+    @Arg('options') options: UserRegisterInput,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     const hashedPassword = await argon2.hash(options.password);
