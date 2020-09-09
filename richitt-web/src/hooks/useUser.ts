@@ -1,21 +1,25 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation } from 'urql';
-import { LogoutDocument, useMeQuery, User } from '../generated/graphql';
+import {
+  // LogoutDocument,
+  useLogoutMutation,
+  useMeQuery,
+  User,
+} from '../generated/graphql';
 
 export type DisplayUser = Pick<User, 'email' | 'id' | 'username'>;
 
 function useUser() {
   const router = useRouter();
-  const [{ data, fetching, error }, queryMe] = useMeQuery();
+  const [{ data, fetching: loading, error }, queryMe] = useMeQuery();
   const [user, setUser] = useState<null | DisplayUser>(null);
-  const [, executeLogout] = useMutation(LogoutDocument);
+  const [{ fetching: loggingOut }, executeLogout] = useLogoutMutation();
 
   useEffect(() => {
-    if (data?.me) {
-      setUser(data.me);
-    }
-  }, [fetching]);
+    console.log('user changed', data?.me);
+    setUser(data?.me || null);
+  }, [data]);
 
   const logout = useCallback(async () => {
     await executeLogout();
@@ -24,8 +28,9 @@ function useUser() {
 
   return {
     user,
-    fetching,
+    loading,
     error,
+    loggingOut,
     logout,
   };
 }

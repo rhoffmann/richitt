@@ -11,12 +11,12 @@ interface NavBarProps {}
 export const NavBar: React.FC<NavBarProps> = () => {
   const { user, logout } = useUser();
 
-  async function handleLogout() {
+  function handleLogout() {
     logout();
   }
 
   return (
-    <Flex p={4} bg="tomato" alignItems="center">
+    <Flex p={4} bg="orange.200" alignItems="center">
       <Box>Welcome to Richitt</Box>
       {user ? (
         <>
