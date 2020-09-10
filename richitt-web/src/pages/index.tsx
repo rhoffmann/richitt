@@ -1,6 +1,7 @@
 import React from 'react';
+
 import { Layout } from '../components/Layout';
-import { NavBar } from '../components/NavBar';
+import { usePostsQuery } from '../generated/graphql';
 import useUser from '../hooks/useUser';
 
 interface IndexProps {}
@@ -8,9 +9,15 @@ interface IndexProps {}
 const Index: React.FC<IndexProps> = ({}) => {
   const { user, loading, error } = useUser();
 
+  const [{ data }] = usePostsQuery();
+
   return (
     <Layout>
-      {loading && <div>loading...</div>}
+      {data ? (
+        data.posts.map((p) => <div key={p.id}>{p.title}</div>)
+      ) : (
+        <div>loading posts...</div>
+      )}
       {user ? (
         <>
           <h2>dashboard</h2>
@@ -23,5 +30,12 @@ const Index: React.FC<IndexProps> = ({}) => {
     </Layout>
   );
 };
+
+// export async function getStaticProps(ctx: NextPageContext) {
+//   console.log('ssp', ctx)
+//   return {
+//     props: {}
+//   }
+// }
 
 export default Index;
