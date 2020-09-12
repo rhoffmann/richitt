@@ -1,30 +1,19 @@
 import React from 'react';
 import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core';
-import { Provider, createClient, dedupExchange, fetchExchange } from 'urql';
-
 import theme from '../theme';
-import { GRAPHQL_ENDPOINT } from '../config';
-import cache from '../data/cache';
 
-const client = createClient({
-  url: GRAPHQL_ENDPOINT,
-  exchanges: [dedupExchange, cache, fetchExchange],
-  fetchOptions: {
-    credentials: 'include',
-  },
-});
+// import { Provider, createClient } from 'urql';
+// const client = createClient(createUrqlClient(null));
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   return (
-    <Provider value={client}>
-      <ThemeProvider theme={theme}>
-        <ColorModeProvider>
-          <CSSReset />
-          <Component {...pageProps} />
-        </ColorModeProvider>
-      </ThemeProvider>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <ColorModeProvider>
+        <CSSReset />
+        <Component {...pageProps} />
+      </ColorModeProvider>
+    </ThemeProvider>
   );
 }
 
-export default MyApp;
+export default App;

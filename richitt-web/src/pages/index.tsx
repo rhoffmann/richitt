@@ -1,16 +1,24 @@
 import React from 'react';
+import { withUrqlClient } from 'next-urql';
+
 import { Layout } from '../components/Layout';
-import { NavBar } from '../components/NavBar';
+import { createUrqlClient } from '../data/createUrqlClient';
+import { usePostsQuery } from '../generated/graphql';
 import useUser from '../hooks/useUser';
 
 interface IndexProps {}
 
 const Index: React.FC<IndexProps> = ({}) => {
   const { user, loading, error } = useUser();
+  const [{ data }] = usePostsQuery();
 
   return (
     <Layout>
-      {loading && <div>loading...</div>}
+      {data?.posts ? (
+        data.posts.map((p) => <div key={p.id}>{p.title}</div>)
+      ) : (
+        <div>loading posts...</div>
+      )}
       {user ? (
         <>
           <h2>dashboard</h2>
@@ -24,4 +32,4 @@ const Index: React.FC<IndexProps> = ({}) => {
   );
 };
 
-export default Index;
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
