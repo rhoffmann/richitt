@@ -6,9 +6,7 @@ import { createUrqlClient } from '../data/createUrqlClient';
 import { usePostsQuery } from '../generated/graphql';
 import useUser from '../hooks/useUser';
 
-interface IndexProps {
-  posts: any[];
-}
+interface IndexProps {}
 
 const Index: React.FC<IndexProps> = ({}) => {
   const { user, loading, error } = useUser();
