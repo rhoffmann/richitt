@@ -1,19 +1,22 @@
 import React from 'react';
+import { withUrqlClient } from 'next-urql';
 
 import { Layout } from '../components/Layout';
+import { createUrqlClient } from '../data/createUrqlClient';
 import { usePostsQuery } from '../generated/graphql';
 import useUser from '../hooks/useUser';
 
-interface IndexProps {}
+interface IndexProps {
+  posts: any[];
+}
 
 const Index: React.FC<IndexProps> = ({}) => {
   const { user, loading, error } = useUser();
-
   const [{ data }] = usePostsQuery();
 
   return (
     <Layout>
-      {data ? (
+      {data?.posts ? (
         data.posts.map((p) => <div key={p.id}>{p.title}</div>)
       ) : (
         <div>loading posts...</div>
@@ -31,11 +34,4 @@ const Index: React.FC<IndexProps> = ({}) => {
   );
 };
 
-// export async function getStaticProps(ctx: NextPageContext) {
-//   console.log('ssp', ctx)
-//   return {
-//     props: {}
-//   }
-// }
-
-export default Index;
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
