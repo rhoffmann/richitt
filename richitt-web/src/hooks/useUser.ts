@@ -11,8 +11,6 @@ function useUser() {
     pause: isServer(),
   });
 
-  console.log('useUser', data);
-
   const [user, setUser] = useState<null | DisplayUser>(null);
   const [{ fetching: loggingOut }, executeLogout] = useLogoutMutation();
 
