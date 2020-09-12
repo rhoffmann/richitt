@@ -10,6 +10,8 @@ import {
   UserRegisterInput,
 } from '../generated/graphql';
 import { toFormikErrors } from '../lib/helpers';
+import { withUrqlClient } from 'next-urql';
+import { createUrqlClient } from '../data/createUrqlClient';
 
 interface RegisterProps {}
 
@@ -81,4 +83,4 @@ const Register: React.FC<RegisterProps> = ({}) => {
   );
 };
 
-export default Register;
+export default withUrqlClient(createUrqlClient)(Register);
