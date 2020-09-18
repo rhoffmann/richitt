@@ -60,6 +60,9 @@ export class UserResolver {
     return user;
   }
 
+  @Mutation(() => Boolean)
+  forgotPassword(@Ctx() { req }: MyContext) {}
+
   @Mutation(() => UserResponse)
   async register(
     @Arg('options') options: UserRegisterInput,
