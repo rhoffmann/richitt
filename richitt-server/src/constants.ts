@@ -10,3 +10,10 @@ export const REDIS_SECRET = process.env.REDIS_SECRET || 'FALLBACK';
 export const SESSION_COOKIE_NAME = process.env.SESSION_COOKIE_NAME || 'fid';
 
 export const CORS_ORIGIN_WHITELIST = process.env.CORS_ORIGIN_WHITELIST || '*';
+
+export const EMAIL_FROM = process.env.EMAIL_FROM;
+export const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME;
+export const SMTP_HOST = process.env.SMTP_HOST || 'localhost';
+export const SMTP_PORT = process.env.SMTP_PORT || 587;
+export const SMTP_USER = process.env.SMTP_USER;
+export const SMTP_PASS = process.env.SMTP_PASS;
